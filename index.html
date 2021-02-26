@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+        <button v-on:click="countPeople">Count</button>
+        <ol>
+            <li v-for="(person, personIndex) in people" style="background: #f2e38e;">
+                <h2>{{person.first_name}} {{person.last_name}}</h2>
+                <button v-on:click="deletePerson(person.id)">Delete</button>
+
+                <ul>
+                    <li v-for="userRole in person.user_roles">
+                        {{userRole}}
+                        <button v-on:click="deleteRole(personIndex, userRole)">Delete this Role</button>
+                    </li>
+                </ul>
+                <div style="padding: 20px; background: #c4c4c4;">
+                    <input type="text" v-model="newRole">
+                    <button v-on:click="addRole(person)">Add a new role</button>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: 'Hello Vue..',
+                newRole: '',
+                people: [
+                    {
+                        "id": 1,
+                        "first_name": "Catherine",
+                        "last_name": "Widjaja",
+                        "verified": true,
+                        "deleted": false,
+                        "user_roles": ["User"]
+                    }, {
+                        "id": 2,
+                        "first_name": "David",
+                        "last_name": "Miller",
+                        "verified": true,
+                        "deleted": false,
+                        "user_roles": ["Admin", "Super Admin"]
+                    }, {
+                        "id": 3,
+                        "first_name": "Domenik",
+                        "last_name": "Adamoski",
+                        "verified": true,
+                        "deleted": false,
+                        "user_roles": ["Admin"]
+                    }, {
+                        "id": 4,
+                        "first_name": "Duy",
+                        "last_name": "Tran",
+                        "verified": false,
+                        "deleted": false,
+                        "user_roles": ["User"]
+                    }, {
+                        "id": 5,
+                        "first_name": "Grace",
+                        "last_name": "Cho",
+                        "verified": true,
+                        "deleted": false,
+                        "user_roles": ["User"]
+                    }, {
+                        "id": 6,
+                        "first_name": "Jenna",
+                        "last_name": "Pegg",
+                        "verified": true,
+                        "deleted": false,
+                        "user_roles": ["Admin"]
+                    }, {
+                        "id": 7,
+                        "first_name": "John",
+                        "last_name": "Seo",
+                        "verified": true,
+                        "deleted": false,
+                        "user_roles": ["Admin"]
+                    }, {
+                        "id": 8,
+                        "first_name": "Kade",
+                        "last_name": "Gray",
+                        "verified": false,
+                        "deleted": false,
+                        "user_roles": ["Admin"]
+                    }
+                ]
+            },
+            methods: {
+                deletePerson: function (id) {
+                    // TODO update deleted status 
+                    this.people.map(el => {
+                        if (el.id === id) el.deleted = true
+                    })
+                    this.people = this.people.filter((el) => {
+                        return el.id !== id
+                    })
+                },
+                countPeople: function () {
+                    window.alert('Active users count: ' + this.people.length)
+                },
+                deleteRole: function (index, role) {
+                    this.people[index].user_roles = this.people[index].user_roles.filter((f) => {
+                        return f != role
+                    })
+
+                },
+                addRole: function (person) {
+                    person.user_roles.push(this.newRole)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
